@@ -5,8 +5,12 @@ namespace Jagaco.Log2All
 {
     public class LogManager
     {
+        private static readonly string DEFAULTLOG = "DEFAULTLOG";
+
         internal List<ILogWriter> Writers { get;  private set; }
         private Dictionary<string, ILog> Logs { get; set; }
+
+        public LogLevel Threshold { get; set; }
 
 
         private static LogManager _instance = null;
@@ -19,6 +23,12 @@ namespace Jagaco.Log2All
 
                 return _instance;
             }
+        }
+        private LogManager()
+        {
+            Writers = new List<ILogWriter>();
+            Logs = new Dictionary<string, ILog>();
+            RegisterLog(DEFAULTLOG);
         }
 
 
@@ -34,7 +44,13 @@ namespace Jagaco.Log2All
             if (!Logs.ContainsKey(name))
                 Logs[name] = new Logger();
         }
-        public ILog GetLog(string name)
+
+        public ILog GetLogger()
+        {
+            return GetLogger(DEFAULTLOG);
+        }
+
+        public ILog GetLogger(string name)
         {
             if (Logs.ContainsKey(name))
                 return Logs[name];

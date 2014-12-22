@@ -77,18 +77,20 @@ namespace Jagaco.Log2All
 
         public void Log(LogLevel level, string message, Exception exception)
         {
-            LogEntry entry = new LogEntry();
-
-            entry.Level = level;
-            entry.TimeStamp = DateTime.Now;
-            entry.Message = message;
-            entry.Exception = exception;
-
-            foreach(var writer in LogManager.Instance.Writers)
+            if (level >= LogManager.Instance.Threshold)
             {
-                writer.Write(entry);
-            }
+                LogEntry entry = new LogEntry();
 
+                entry.Level = level;
+                entry.TimeStamp = DateTime.Now;
+                entry.Message = message;
+                entry.Exception = exception;
+
+                foreach (var writer in LogManager.Instance.Writers)
+                {
+                    writer.Write(entry);
+                }
+            }
         }
     }
 }

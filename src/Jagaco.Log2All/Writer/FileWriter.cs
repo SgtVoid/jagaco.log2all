@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Jagaco.Log2All.Writer
 {
-    class FileWriter : ILogWriter
+    public class FileWriter : ILogWriter
     {
         StreamWriter strwrite;
         public string Name
